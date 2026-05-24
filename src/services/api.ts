@@ -1,0 +1,47 @@
+import axios from "axios";
+import { STORAGE_KEYS } from "../utils/storageKeys";
+
+const api = axios.create({
+  baseURL: "http://localhost:5000/api/v1",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/auth/refresh"];
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem(STORAGE_KEYS.accessToken);
+    const isPublic = PUBLIC_ENDPOINTS.some((url) => config.url?.includes(url));
+
+    if (!isPublic && token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        return api(originalRequest);
+      } catch {
+        localStorage.removeItem(STORAGE_KEYS.accessToken);
+        localStorage.removeItem(STORAGE_KEYS.refreshToken);
+        localStorage.removeItem(STORAGE_KEYS.user);
+        window.location.href = "/login";
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
+export default api;
