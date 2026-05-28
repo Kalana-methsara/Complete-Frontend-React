@@ -89,8 +89,9 @@
 import axios from "axios";
 import { STORAGE_KEYS } from "../utils/storageKeys";
 
+// api.ts ගොනුව
 const api = axios.create({
-  baseURL: "https://complete-backend-react.vercel.app", // අවසානයේ '/' නොමැතිව
+  baseURL: "https://complete-backend-react.vercel.app/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
