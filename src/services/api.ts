@@ -59,8 +59,11 @@ api.interceptors.response.use(
       try {
         // 1. Refresh Token එක පාවිච්චි කරලා අලුත් Access Token එකක් ලබාගන්න
         const refreshToken = localStorage.getItem(STORAGE_KEYS.refreshToken);
-        const { data } = await axios.post("http://localhost:5000/api/v1/auth/refresh", {
-          refreshToken,
+        // const { data } = await axios.post("http://localhost:5000/api/v1/auth/refresh", {
+        //   refreshToken,
+        // });
+        const { data } = await api.post("/api/v1/auth/refresh", {
+         refreshToken,
         });
 
         // 2. අලුත් token එක storage එකේ save කරන්න
