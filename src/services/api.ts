@@ -8,7 +8,7 @@ import { STORAGE_KEYS } from "../utils/storageKeys";
 //   },
 // });
 const api = axios.create({
-  baseURL: "https://complete-backend-react.vercel.app"
+  baseURL: "https://complete-backend-react.vercel.app" 
 });
 
 const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/auth/refresh"];
@@ -63,8 +63,8 @@ api.interceptors.response.use(
         //   refreshToken,
         // });
         const { data } = await api.post("/api/v1/auth/refresh", {
-         refreshToken,
-        });
+  refreshToken,
+});
 
         // 2. අලුත් token එක storage එකේ save කරන්න
         localStorage.setItem(STORAGE_KEYS.accessToken, data.accessToken);
