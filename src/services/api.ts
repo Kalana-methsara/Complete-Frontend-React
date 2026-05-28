@@ -89,7 +89,6 @@
 import axios from "axios";
 import { STORAGE_KEYS } from "../utils/storageKeys";
 
-// api.ts ගොනුව
 const api = axios.create({
   baseURL: "https://complete-backend-react.vercel.app/api/v1",
   headers: {
@@ -97,7 +96,7 @@ const api = axios.create({
   },
 });
 
-const PUBLIC_ENDPOINTS = ["/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/refresh"];
+const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/auth/refresh"];
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem(STORAGE_KEYS.accessToken);
@@ -115,7 +114,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshToken = localStorage.getItem(STORAGE_KEYS.refreshToken);
-        const { data } = await api.post("/api/v1/auth/refresh", { refreshToken });
+        const { data } = await api.post("/auth/refresh", { refreshToken });
         localStorage.setItem(STORAGE_KEYS.accessToken, data.accessToken);
         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
         return api(originalRequest);
