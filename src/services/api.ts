@@ -8,7 +8,7 @@ import { STORAGE_KEYS } from "../utils/storageKeys";
 //   },
 // });
 const api = axios.create({
-  baseURL: "https://complete-backend-react.vercel.app/"
+  baseURL: "https://complete-backend-react.vercel.app"
 });
 
 const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/auth/refresh"];
